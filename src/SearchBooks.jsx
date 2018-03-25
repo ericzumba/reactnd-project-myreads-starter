@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import BookShelf from './BookShelf'
 
 class SearchBooks extends React.Component {
   render() {
@@ -21,7 +22,7 @@ class SearchBooks extends React.Component {
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid"></ol>
+          <BookShelf title="Search Results" shelfName="searchResults" books={ this.props.books } move={ this.props.move }/>
         </div>
       </div>
     )

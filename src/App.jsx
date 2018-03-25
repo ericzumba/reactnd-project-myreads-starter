@@ -1,8 +1,6 @@
 import React from 'react'
-import {Link, Route} from 'react-router-dom'
+import { Route } from 'react-router-dom'
 // import * as BooksAPI from './BooksAPI'
-
-import BookShelf from './BookShelf'
 import ListBooks from './ListBooks'
 import SearchBooks from './SearchBooks'
 import './App.css'
@@ -15,7 +13,8 @@ class BooksApp extends React.Component {
       dictionary: {
         currentlyReading: "Currently Reading",
         wantToRead: "Want to Read",
-        read: "Read"
+        read: "Read",
+        searchResults: "Search Results"
       },
       shelves: {
         currentlyReading: [
@@ -73,20 +72,27 @@ class BooksApp extends React.Component {
             backgroundImage: "http://books.google.com/books/content?id=32haAAAAMAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72yckZ5f5bDFVIf7BGPbjA0KYYtlQ__nWB-hI_YZmZ-fScYwFy4O_fWOcPwf-pgv3pPQNJP_sT5J_xOUciD8WaKmevh1rUR-1jk7g1aCD_KeJaOpjVu0cm_11BBIUXdxbFkVMdi&source=gbs_api"
           }
         ]
-      }
+      },
+      searchResults: []
     }
   }
 
   moveShelf(book, from) {
     return (function (to) {
       const shelves = this.state.shelves
-
       shelves[from] = shelves[from].filter((b) => b.title !== book.title)
-
       if (to !== "none") shelves[to].push(book)
-
       this.setState({shelves: shelves})
     }).bind(this) // otherwise it binds bo Book :(
+  }
+
+  moveFromSearch(book) {
+    return (function (to) {
+      const shelves = this.state.shelves
+      shelves[to].push(book)
+      this.setState({shelves: shelves})
+    }).bind(this) // otherwise it binds bo Book :(
+
   }
 
   render() {
@@ -98,7 +104,9 @@ class BooksApp extends React.Component {
                      move={ this.moveShelf.bind(this) } />
 
         )}/>
-        <Route path="/search" component={SearchBooks}/>
+        <Route path="/search" render={() => (
+          <SearchBooks books={ this.state.searchResults } move={this.moveFromSearch.bind(this) } />
+        )}/>
       </div>
     )
   }
