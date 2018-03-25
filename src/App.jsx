@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link, Route } from 'react-router-dom'
 // import * as BooksAPI from './BooksAPI'
+import BookShelf from './BookShelf'
 import ShelfChanger from './ShelfChanger'
 import SearchBooks from './SearchBooks'
 import './App.css'
-
 
 class Book extends React.Component {
   render() {
@@ -30,20 +30,6 @@ class Book extends React.Component {
   }
 }
 
-class BookShelf extends React.Component {
-  render() {
-    return (
-      <div className="bookshelf">
-        <h2 className="bookshelf-title">{this.props.title}</h2>
-        <div className="bookshelf-books">
-          <ol className="books-grid">
-            {this.props.children}
-          </ol>
-        </div>
-      </div>
-    )
-  }
-}
 
 class BooksApp extends React.Component {
   constructor(props) {
