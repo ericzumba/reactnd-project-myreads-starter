@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link, Route } from 'react-router-dom'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
 
@@ -192,26 +193,25 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-            <SearchBooks/>
-          ) : (
-            <div className="list-books">
-              <div className="list-books-title">
-                <h1>MyReads</h1>
-              </div>
-              <div className="list-books-content">
-                <div>
-                  {
-                    Object.keys(this.state.shelves).map(
-                      title => this.buildShelf(title, this.state.shelves[title]))
-                  }
-                </div>
-              </div>
-              <div className="open-search">
-                <a onClick={() => this.setState({showSearchPage: true})}>Add a book</a>
+        <Route exact path="/" render={() => (
+          <div className="list-books">
+            <div className="list-books-title">
+              <h1>MyReads</h1>
+            </div>
+            <div className="list-books-content">
+              <div>
+                {
+                  Object.keys(this.state.shelves).map(
+                    title => this.buildShelf(title, this.state.shelves[title]))
+                }
               </div>
             </div>
-          )}
+            <div className="open-search">
+              <Link to="/search">Add a book</Link>
+            </div>
+          </div>
+        )}/>
+        <Route path="/search" component= {SearchBooks}/>
       </div>
     )
   }
