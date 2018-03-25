@@ -157,14 +157,27 @@ class BooksApp extends React.Component {
   }
 
   moveShelf(book, from) {
-    return function(to) {
+    return function (to) {
       const shelves = this.state.shelves
 
       shelves[from] = shelves[from].filter((b) => b.title !== book.title)
 
       shelves[to].push(book)
-      this.setState({ shelves: shelves })
+      this.setState({shelves: shelves})
     }
+  }
+
+  bookShelf(title, books) {
+    return (
+      <BookShelf title={title} key={title}>
+        {books.map(b =>
+          <Book { ...b } key={ b.title }>
+            <ShelfChanger book={ b }
+                          shelf={ title }
+                          move={ this.moveShelf(b, title).bind(this) }/>
+          </Book>
+        )}
+      </BookShelf>)
   }
 
   render() {
@@ -179,31 +192,10 @@ class BooksApp extends React.Component {
               </div>
               <div className="list-books-content">
                 <div>
-                  <BookShelf title="Currently Reading">
-                    {this.state.shelves.currentlyReading.map( b =>
-                      <Book {...b} key={ b.title }>
-                        <ShelfChanger book={b}
-                                      shelf="currentlyReading"
-                                      move={ this.moveShelf(b, "currentlyReading").bind(this) }/>
-                      </Book>
-                    )}
-                  </BookShelf>
-                  <BookShelf title="Want to Read">
-                    {this.state.shelves.wantToRead.map(b =>
-                      <Book {...b} key={ b.title }>
-                        <ShelfChanger book={b}
-                                      shelf="wantToRead"
-                                      move={ this.moveShelf(b, "wantToRead").bind(this) }/>
-                      </Book>)}
-                  </BookShelf>
-                  <BookShelf title="Read">
-                    {this.state.shelves.read.map(b =>
-                      <Book {...b} key={ b.title } shelf="read">
-                        <ShelfChanger book={b}
-                                      shelf="read"
-                                      move={ this.moveShelf(b, "read").bind(this) }/>
-                      </Book>)}
-                  </BookShelf>
+                  {
+                    Object.keys(this.state.shelves).map(
+                      title => this.bookShelf(title, this.state.shelves[title]))
+                  }
                 </div>
               </div>
               <div className="open-search">
