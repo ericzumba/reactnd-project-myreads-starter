@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
+import * as BooksAPI from './BooksAPI'
 import ListBooks from './ListBooks'
 import SearchBooks from './SearchBooks'
 import './App.css'
@@ -85,6 +86,15 @@ class BooksApp extends React.Component {
     }).bind(this) // otherwise it binds bo Book :(
   }
 
+  handleSearch(text) {
+    BooksAPI.search(text)
+      .then((res) =>
+      {
+        console.log(res)
+        res.error || this.setState({ searchResults: res })
+      })
+  }
+
   moveFromSearch(book) {
     return (function (to) {
       const shelves = this.state.shelves
@@ -101,10 +111,11 @@ class BooksApp extends React.Component {
           <ListBooks shelves={ this.state.shelves }
                      dictionary={ this.state.dictionary }
                      move={ this.moveShelf.bind(this) } />
-
         )}/>
         <Route path="/search" render={() => (
-          <SearchBooks books={ this.state.searchResults } move={this.moveFromSearch.bind(this) } />
+          <SearchBooks books={ this.state.searchResults }
+                       move={ this.moveFromSearch.bind(this) }
+                       onSearch={ this.handleSearch.bind(this) } />
         )}/>
       </div>
     )
