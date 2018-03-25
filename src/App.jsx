@@ -6,7 +6,7 @@ class ShelfChanger extends React.Component {
   render() {
     return (
       <div className="book-shelf-changer">
-        <select value={ this.props.shelf } onChange={() => this.props.move("wantToRead")}>
+        <select value={ this.props.shelf } onChange={ (e) => this.props.move(e.target.value) }>
           <option value="none" disabled>Move to...</option>
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>
@@ -160,7 +160,7 @@ class BooksApp extends React.Component {
     return function(to) {
       const shelves = this.state.shelves
       shelves[to].push(book)
-      this.setState({shelves: shelves})
+      this.setState({ shelves: shelves })
     }
   }
 
@@ -181,20 +181,24 @@ class BooksApp extends React.Component {
                       <Book {...b} key={ b.title }>
                         <ShelfChanger book={b}
                                       shelf="currentlyReading"
-                                      move={ this.moveShelf(b, "currentlyReading").bind(this) }/>
+                                      move={ this.moveShelf(b, this.state.shelves.currentlyReading).bind(this) }/>
                       </Book>
                     )}
                   </BookShelf>
                   <BookShelf title="Want to Read">
                     {this.state.shelves.wantToRead.map(b =>
                       <Book {...b} key={ b.title }>
-                        <ShelfChanger book={b} shelf="wantToRead"/>
+                        <ShelfChanger book={b}
+                                      shelf="wantToRead"
+                                      move={ this.moveShelf(b, this.state.shelves.wantToRead).bind(this) }/>
                       </Book>)}
                   </BookShelf>
                   <BookShelf title="Read">
                     {this.state.shelves.read.map(b =>
                       <Book {...b} key={ b.title } shelf="read">
-                        <ShelfChanger book={b} shelf="read"/>
+                        <ShelfChanger book={b}
+                                      shelf="read"
+                                      move={ this.moveShelf(b, this.state.shelves.read).bind(this) }/>
                       </Book>)}
                   </BookShelf>
                 </div>
