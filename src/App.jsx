@@ -1,24 +1,10 @@
 import React from 'react'
 import { Link, Route } from 'react-router-dom'
 // import * as BooksAPI from './BooksAPI'
+import ShelfChanger from './ShelfChanger'
 import SearchBooks from './SearchBooks'
 import './App.css'
 
-class ShelfChanger extends React.Component {
-  render() {
-    return (
-      <div className="book-shelf-changer">
-        <select value={ this.props.shelf } onChange={ (e) => this.props.move(e.target.value) }>
-          <option value="none" disabled>Move to...</option>
-          <option value="currentlyReading">Currently Reading</option>
-          <option value="wantToRead">Want to Read</option>
-          <option value="read">Read</option>
-          <option value="none">None</option>
-        </select>
-      </div>
-    )
-  }
-}
 
 class Book extends React.Component {
   render() {
