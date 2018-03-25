@@ -90,7 +90,9 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false
+    showSearchPage: false,
+    wantToRead: [],
+
   }
 
   render() {
@@ -129,7 +131,7 @@ class BooksApp extends React.Component {
                         authors="J.K. Rowling"
                         backgroundImage="http://books.google.com/books/content?id=wrOQLV6xB-wC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72G3gA5A-Ka8XjOZGDFLAoUeMQBqZ9y-LCspZ2dzJTugcOcJ4C7FP0tDA8s1h9f480ISXuvYhA_ZpdvRArUL-mZyD4WW7CHyEqHYq9D3kGnrZCNiqxSRhry8TiFDCMWP61ujflB&source=gbs_api"/>
                 </BookShelf>
-                <BookShelf>
+                <BookShelf title="Read">
                   <Book width="128"
                         height="192"
                         title="The Hobbit"
