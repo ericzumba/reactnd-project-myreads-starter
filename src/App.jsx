@@ -162,22 +162,26 @@ class BooksApp extends React.Component {
 
       shelves[from] = shelves[from].filter((b) => b.title !== book.title)
 
-      shelves[to].push(book)
-      this.setState({shelves: shelves})
+      if(to !== "none") shelves[to].push(book)
+
+      this.setState({ shelves: shelves })
     }
   }
 
-  bookShelf(title, books) {
+  buildShelf(title, books) {
     return (
       <BookShelf title={title} key={title}>
-        {books.map(b =>
-          <Book { ...b } key={ b.title }>
-            <ShelfChanger book={ b }
-                          shelf={ title }
-                          move={ this.moveShelf(b, title).bind(this) }/>
-          </Book>
-        )}
-      </BookShelf>)
+        {
+          books.map(b =>
+            <Book { ...b } key={ b.title }>
+              <ShelfChanger book={ b }
+                            shelf={ title }
+                            move={ this.moveShelf(b, title).bind(this) }/>
+            </Book>
+          )
+        }
+      </BookShelf>
+    )
   }
 
   render() {
@@ -194,7 +198,7 @@ class BooksApp extends React.Component {
                 <div>
                   {
                     Object.keys(this.state.shelves).map(
-                      title => this.bookShelf(title, this.state.shelves[title]))
+                      title => this.buildShelf(title, this.state.shelves[title]))
                   }
                 </div>
               </div>
