@@ -1,35 +1,9 @@
 import React from 'react'
-import { Link, Route } from 'react-router-dom'
+import {Link, Route} from 'react-router-dom'
 // import * as BooksAPI from './BooksAPI'
 import BookShelf from './BookShelf'
-import ShelfChanger from './ShelfChanger'
 import SearchBooks from './SearchBooks'
 import './App.css'
-
-class Book extends React.Component {
-  render() {
-    const backgroundUrl = "url(" + this.props.backgroundImage + ")"
-    return (
-      <li>
-        <div className="book">
-          <div className="book-top">
-            <div className="book-cover"
-                 style={{
-                   width: this.props.width,
-                   height: this.props.height,
-                   backgroundImage: backgroundUrl
-                 }}>
-            </div>
-            {this.props.children}
-          </div>
-          <div className="book-title">{ this.props.title }</div>
-          <div className="book-authors">{ this.props.authors }</div>
-        </div>
-      </li>
-    )
-  }
-}
-
 
 class BooksApp extends React.Component {
   constructor(props) {
@@ -107,26 +81,10 @@ class BooksApp extends React.Component {
 
       shelves[from] = shelves[from].filter((b) => b.title !== book.title)
 
-      if(to !== "none") shelves[to].push(book)
+      if (to !== "none") shelves[to].push(book)
 
-      this.setState({ shelves: shelves })
+      this.setState({shelves: shelves})
     }
-  }
-
-  buildShelf(shelfName, books) {
-    return (
-      <BookShelf title={ this.state.dictionary[shelfName] } key={shelfName}>
-        {
-          books.map(b =>
-            <Book { ...b } key={ b.title }>
-              <ShelfChanger book={ b }
-                            shelf={ shelfName }
-                            move={ this.moveShelf(b, shelfName).bind(this) }/>
-            </Book>
-          )
-        }
-      </BookShelf>
-    )
   }
 
   render() {
@@ -140,8 +98,13 @@ class BooksApp extends React.Component {
             <div className="list-books-content">
               <div>
                 {
-                  Object.keys(this.state.shelves).map(
-                    title => this.buildShelf(title, this.state.shelves[title]))
+                  Object.keys(this.state.shelves).map(shelfName => (
+                    <BookShelf title={ this.state.dictionary[shelfName] }
+                               shelfName={ shelfName }
+                               key={ shelfName }
+                               books={ this.state.shelves[shelfName] }
+                               move={ this.moveShelf.bind(this) }/>
+                  ))
                 }
               </div>
             </div>
