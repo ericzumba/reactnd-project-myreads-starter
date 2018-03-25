@@ -2,7 +2,6 @@ import React from 'react'
 import Book from './Book'
 import ShelfChanger from './ShelfChanger'
 
-
 class BookShelf extends React.Component {
   render() {
     return (
