@@ -159,6 +159,9 @@ class BooksApp extends React.Component {
   moveShelf(book, from) {
     return function(to) {
       const shelves = this.state.shelves
+
+      shelves[from] = shelves[from].filter((b) => b.title !== book.title)
+
       shelves[to].push(book)
       this.setState({ shelves: shelves })
     }
@@ -181,7 +184,7 @@ class BooksApp extends React.Component {
                       <Book {...b} key={ b.title }>
                         <ShelfChanger book={b}
                                       shelf="currentlyReading"
-                                      move={ this.moveShelf(b, this.state.shelves.currentlyReading).bind(this) }/>
+                                      move={ this.moveShelf(b, "currentlyReading").bind(this) }/>
                       </Book>
                     )}
                   </BookShelf>
@@ -190,7 +193,7 @@ class BooksApp extends React.Component {
                       <Book {...b} key={ b.title }>
                         <ShelfChanger book={b}
                                       shelf="wantToRead"
-                                      move={ this.moveShelf(b, this.state.shelves.wantToRead).bind(this) }/>
+                                      move={ this.moveShelf(b, "wantToRead").bind(this) }/>
                       </Book>)}
                   </BookShelf>
                   <BookShelf title="Read">
@@ -198,7 +201,7 @@ class BooksApp extends React.Component {
                       <Book {...b} key={ b.title } shelf="read">
                         <ShelfChanger book={b}
                                       shelf="read"
-                                      move={ this.moveShelf(b, this.state.shelves.read).bind(this) }/>
+                                      move={ this.moveShelf(b, "read").bind(this) }/>
                       </Book>)}
                   </BookShelf>
                 </div>
