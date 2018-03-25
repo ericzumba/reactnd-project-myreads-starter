@@ -96,6 +96,11 @@ class BooksApp extends React.Component {
        * pages, as well as provide a good URL they can bookmark and share.
        */
       showSearchPage: false,
+      dictionary: {
+        currentlyReading: "Currently Reading",
+        wantToRead: "Want to Read",
+        read: "Read"
+      },
       shelves: {
         currentlyReading: [
           {
@@ -168,15 +173,15 @@ class BooksApp extends React.Component {
     }
   }
 
-  buildShelf(title, books) {
+  buildShelf(shelfName, books) {
     return (
-      <BookShelf title={title} key={title}>
+      <BookShelf title={ this.state.dictionary[shelfName] } key={shelfName}>
         {
           books.map(b =>
             <Book { ...b } key={ b.title }>
               <ShelfChanger book={ b }
-                            shelf={ title }
-                            move={ this.moveShelf(b, title).bind(this) }/>
+                            shelf={ shelfName }
+                            move={ this.moveShelf(b, shelfName).bind(this) }/>
             </Book>
           )
         }
