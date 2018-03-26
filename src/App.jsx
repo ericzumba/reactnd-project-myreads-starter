@@ -86,13 +86,29 @@ class BooksApp extends React.Component {
     }).bind(this) // otherwise it binds bo Book :(
   }
 
+  apiBookToModel(book) {
+    console.log(book);
+    return (
+      {
+        authors: (book.authors ? book.authors : []),
+        title: book.title,
+        backgroundImage: book.imageLinks.thumbnail,
+        width: 128,
+        height: 192
+      }
+    )
+  }
+
   handleSearch(text) {
-    BooksAPI
-      .search(text)
-      .then(res => res.error ? [] : res)
-      .then(books => books.map(b => b.id))
-      .then(ids => Promise.all(ids.map(id => BooksAPI.get(id)))
-        .then(books => { this.setState({ searchResults: books })}))
+    if(text && text.length > 1)
+      BooksAPI
+        .search(text)
+        .catch(error => console.log(error))
+        .then(res => res.error ? [] : res)
+        .then(books => books.map(b => b.id))
+        .then(ids => Promise.all(ids.map(id => BooksAPI.get(id)))
+          .then(books => books.map(this.apiBookToModel))
+          .then(books => { this.setState({ searchResults: books })}))
   }
 
   moveFromSearch(book) {
