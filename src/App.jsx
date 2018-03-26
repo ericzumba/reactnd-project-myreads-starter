@@ -87,7 +87,6 @@ class BooksApp extends React.Component {
   }
 
   apiBookToModel(book) {
-    console.log(book);
     return (
       {
         authors: (book.authors ? book.authors : []),
@@ -114,7 +113,7 @@ class BooksApp extends React.Component {
   moveFromSearch(book) {
     return (function (to) {
       const shelves = this.state.shelves
-      shelves[to].push(book)
+      if (to !== "none") shelves[to].push(book)
       this.setState({ shelves: shelves})
       this.setState({ searchResults: this.state.searchResults.filter((b) => b.title !== book.title) })
 
