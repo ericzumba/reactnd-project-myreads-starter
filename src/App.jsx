@@ -82,7 +82,7 @@ class BooksApp extends React.Component {
       const shelves = this.state.shelves
       shelves[from] = shelves[from].filter((b) => b.title !== book.title)
       if (to !== "none") shelves[to].push(book)
-      this.setState({shelves: shelves})
+      this.setState({ shelves: shelves })
     }).bind(this) // otherwise it binds bo Book :(
   }
 
@@ -115,7 +115,9 @@ class BooksApp extends React.Component {
     return (function (to) {
       const shelves = this.state.shelves
       shelves[to].push(book)
-      this.setState({shelves: shelves})
+      this.setState({ shelves: shelves})
+      this.setState({ searchResults: this.state.searchResults.filter((b) => b.title !== book.title) })
+
     }).bind(this) // otherwise it binds bo Book :(
 
   }
