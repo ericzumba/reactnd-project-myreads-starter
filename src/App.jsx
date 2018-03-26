@@ -87,12 +87,12 @@ class BooksApp extends React.Component {
   }
 
   handleSearch(text) {
-    BooksAPI.search(text)
-      .then((res) =>
-      {
-        console.log(res)
-        res.error || this.setState({ searchResults: res })
-      })
+    BooksAPI
+      .search(text)
+      .then(res => res.error ? [] : res)
+      .then(books => books.map(b => b.id))
+      .then(ids => Promise.all(ids.map(id => BooksAPI.get(id)))
+        .then(books => { this.setState({ searchResults: books })}))
   }
 
   moveFromSearch(book) {
